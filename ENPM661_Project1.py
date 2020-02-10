@@ -1,6 +1,11 @@
 
 #This is the goal node
-goal = [4, 3, 6, 1, 0, 7, 2, 5, 8]
+GoalNode = [0, 3, 6, 1, 4, 7, 2, 5, 8]
+
+StartNode = [1, 3, 6, 0, 4, 7, 2, 5, 8]
+Node_dic = {}
+ParentNode_dic = {'start': 0}
+iterator = 0
 
 
 def BlankTileLocation(CurrentNode):
@@ -64,8 +69,25 @@ def ActionMoveDown(CurrentNode):
     else:
         return 1 
 
-print(ActionMoveLeft(goal))
-print(ActionMoveRight(goal))
-print(ActionMoveUp(goal))
-print(ActionMoveDown(goal))
+#Add node to dictionary of known nodes
+def AddNode(NewNode):   
+    if NewNode not in Node_dic.values() and NewNode !=1 :
+        Node_dic[len(Node_dic)] = NewNode
 
+CurrentNode = Node_dic[iterator]
+
+while CurrentNode != GoalNode:
+    AddNode(ActionMoveLeft(CurrentNode))
+    ParentNode_dic[len(Node_dic)] = iterator
+    AddNode(ActionMoveUp(CurrentNode))
+    ParentNode_dic[len(Node_dic)] = iterator
+    AddNode(ActionMoveRight(CurrentNode))
+    ParentNode_dic[len(Node_dic)] = iterator
+    AddNode(ActionMoveDown(CurrentNode))
+    ParentNode_dic[len(Node_dic)] = iterator
+    iterator += 1
+    CurrentNode = Node_dic[iterator]
+    
+
+print(Node_dic)
+print(ParentNode_dic)
