@@ -87,6 +87,7 @@ while CurrentNode != GoalNode:
     ParentNode_dic[len(Node_dic)] = iterator
     iterator += 1
     CurrentNode = Node_dic[iterator]
+
     
 
 print(Node_dic)
