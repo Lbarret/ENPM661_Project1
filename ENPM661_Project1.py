@@ -2,7 +2,7 @@
 #This is the goal node
 GoalNode = [0, 3, 6, 1, 4, 7, 2, 5, 8]
 path = []
-StartNode = [2, 3, 6, 0, 4, 7, 1, 5, 8]
+StartNode = [3, 4, 6, 0, 1, 7, 2, 5, 8]
 Node_dic = {0: StartNode}
 ParentNode_dic = {}
 iterator = 0
@@ -96,3 +96,6 @@ while 1==1:
     
 
 print(path)
+print(Node_dic)
+for num in path:
+    print(Node_dic[num])
