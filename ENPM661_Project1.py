@@ -2,8 +2,8 @@
 #This is the goal node
 GoalNode = [0, 3, 6, 1, 4, 7, 2, 5, 8]
 path = []
-StartNode = [0, 4, 6, 3, 1, 7, 2, 5, 8]
-Node_dic = {0: StartNode}
+StartNode = [1, 3, 6, 0, 4, 7, 2, 5, 8]
+Node_dic = {StartNode.index(0):{0: StartNode}}
 ParentNode_dic = {}
 iterator = 0
 
@@ -63,31 +63,43 @@ def ActionMoveDown(CurrentNode):
 
 #Add node to dictionary of known nodes
 def AddNode(NewNode):   
-    if NewNode not in Node_dic.values() and NewNode !=1 :
-        Node_dic[len(Node_dic)] = NewNode
-
-CurrentNode = Node_dic[iterator]
+    try:
+        Node_dic[NewNode.index(0)][NewNode]
+    except KeyError:
+        present = False
+    else:
+        present = True
+    if not present and NewNode !=1:
+        Node_dic[NewNode.index(0)][len(Node_dic)] = NewNode
+    
+        
 
 while 1==1:
-    AddNode(ActionMoveLeft(CurrentNode))
-    ParentNode_dic[len(Node_dic)-1] = iterator
-    AddNode(ActionMoveUp(CurrentNode))
-    ParentNode_dic[len(Node_dic)-1] = iterator
-    AddNode(ActionMoveRight(CurrentNode))
-    ParentNode_dic[len(Node_dic)-1] = iterator
-    AddNode(ActionMoveDown(CurrentNode))
-    ParentNode_dic[len(Node_dic)-1] = iterator
+    for num in range(0,9):
+        try:
+            CurrentNode = Node_dic[num][iterator]
+            print(CurrentNode)
+        except: 
+            continue
+        if CurrentNode == GoalNode:
+             while iterator != 0:
+               path.insert(0,iterator)
+               iterator = ParentNode_dic[iterator]
+               break
+        AddNode(ActionMoveLeft(CurrentNode))
+        ParentNode_dic[len(Node_dic)-1] = iterator
+        
+        AddNode(ActionMoveUp(CurrentNode))
+        ParentNode_dic[len(Node_dic)-1] = iterator
+        AddNode(ActionMoveRight(CurrentNode))
+        ParentNode_dic[len(Node_dic)-1] = iterator
+        AddNode(ActionMoveDown(CurrentNode))
+        ParentNode_dic[len(Node_dic)-1] = iterator
+        
     iterator += 1
-    CurrentNode = Node_dic[iterator]
-    if CurrentNode == GoalNode:
-        while iterator != 0:
-            path.insert(0,iterator)
-            iterator = ParentNode_dic[iterator]
-        break
-
+    if iterator % 1000 == 0:
+        print(iterator)
     
 
 print(path)
 
-for num in path:
-    print(Node_dic[num])
