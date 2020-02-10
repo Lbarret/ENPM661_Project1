@@ -1,10 +1,10 @@
 
 #This is the goal node
 GoalNode = [0, 3, 6, 1, 4, 7, 2, 5, 8]
-
-StartNode = [1, 3, 6, 0, 4, 7, 2, 5, 8]
-Node_dic = {}
-ParentNode_dic = {'start': 0}
+path = []
+StartNode = [2, 3, 6, 0, 4, 7, 1, 5, 8]
+Node_dic = {0: StartNode}
+ParentNode_dic = {}
 iterator = 0
 
 
@@ -76,19 +76,23 @@ def AddNode(NewNode):
 
 CurrentNode = Node_dic[iterator]
 
-while CurrentNode != GoalNode:
+while 1==1:
     AddNode(ActionMoveLeft(CurrentNode))
-    ParentNode_dic[len(Node_dic)] = iterator
+    ParentNode_dic[len(Node_dic)-1] = iterator
     AddNode(ActionMoveUp(CurrentNode))
-    ParentNode_dic[len(Node_dic)] = iterator
+    ParentNode_dic[len(Node_dic)-1] = iterator
     AddNode(ActionMoveRight(CurrentNode))
-    ParentNode_dic[len(Node_dic)] = iterator
+    ParentNode_dic[len(Node_dic)-1] = iterator
     AddNode(ActionMoveDown(CurrentNode))
-    ParentNode_dic[len(Node_dic)] = iterator
+    ParentNode_dic[len(Node_dic)-1] = iterator
     iterator += 1
     CurrentNode = Node_dic[iterator]
+    if CurrentNode == GoalNode:
+        while iterator != 0:
+            path.insert(0,iterator)
+            iterator = ParentNode_dic[iterator]
+        break
 
     
 
-print(Node_dic)
-print(ParentNode_dic)
+print(path)
