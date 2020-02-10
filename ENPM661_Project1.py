@@ -2,11 +2,13 @@
 #This is the goal node
 GoalNode = [0, 3, 6, 1, 4, 7, 2, 5, 8]
 path = []
-StartNode = [0, 4, 6, 3, 1, 7, 2, 5, 8]
+StartNode = [3, 2, 6, 4, 0, 8, 1, 5, 7]
 Node_dic = {0: StartNode}
+Search = {tuple(StartNode):0}
 ParentNode_dic = {}
 iterator = 0
 
+print(Search) 
 
 def BlankTileLocation(CurrentNode):
 
@@ -63,12 +65,24 @@ def ActionMoveDown(CurrentNode):
 
 #Add node to dictionary of known nodes
 def AddNode(NewNode):   
-    if NewNode not in Node_dic.values() and NewNode !=1 :
-        Node_dic[len(Node_dic)] = NewNode
+    if NewNode !=1:
 
-CurrentNode = Node_dic[iterator]
+        if tuple(NewNode) not in Search:
+            Node_dic[len(Node_dic)] = NewNode
+            Search[tuple(NewNode)]= len(Node_dic)
+
+
 
 while 1==1:
+    if iterator == 181440:
+        print(Node_dic[iterator])
+    CurrentNode = Node_dic[iterator]
+    
+    if CurrentNode == GoalNode:
+        while iterator != 0:
+            path.insert(0,iterator)
+            iterator = ParentNode_dic[iterator]
+        break
     AddNode(ActionMoveLeft(CurrentNode))
     ParentNode_dic[len(Node_dic)-1] = iterator
     AddNode(ActionMoveUp(CurrentNode))
@@ -78,13 +92,9 @@ while 1==1:
     AddNode(ActionMoveDown(CurrentNode))
     ParentNode_dic[len(Node_dic)-1] = iterator
     iterator += 1
-    CurrentNode = Node_dic[iterator]
-    if CurrentNode == GoalNode:
-        while iterator != 0:
-            path.insert(0,iterator)
-            iterator = ParentNode_dic[iterator]
-        break
-
+    if iterator% 1000 == 0:
+        print(iterator)
+    
     
 
 print(path)
