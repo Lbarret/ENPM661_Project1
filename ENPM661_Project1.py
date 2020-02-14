@@ -1,12 +1,10 @@
 
 #This is the goal node
 GoalNode = [0, 3, 6, 1, 4, 7, 2, 5, 8]
-path = []
 StartNode = [1, 3, 7, 8, 5, 6, 2, 0, 4]
-Node_dic = {0: StartNode}
-Search = {tuple(StartNode):0}
-ParentNode_dic = {}
-iterator = 0
+path = []
+Node_list = [StartNode]
+ParentNode_dic = {tuple(StartNode):0}
 inv = 0
 
 
@@ -66,16 +64,13 @@ def ActionMoveDown(CurrentNode):
         return 1 
 
 #Add node to dictionary of known nodes
-def AddNode(NewNode): 
+def AddNode(NewNode,Parent): 
     #If new node is 1, the robot has hit a wall 
     if NewNode !=1:
         #Search the dictionary of known nodes  
-        if tuple(NewNode) not in Search:
-
-            #I use two different dictionaries, one with the node as a key, the other with the node as a value. 
-            #This way I can search 
-            Node_dic[len(Node_dic)] = NewNode
-            Search[tuple(NewNode)]= len(Node_dic)
+        if tuple(NewNode) not in ParentNode_dic:
+            Node_list.append(NewNode) 
+            ParentNode_dic[tuple(NewNode)]= tuple(Parent)
 
 for i in StartNode:
     for j in range(i+1,len(StartNode)):
@@ -84,31 +79,30 @@ for i in StartNode:
 
 while inv%2 == 0:
     
-    CurrentNode = Node_dic[iterator]
+    CurrentNode = Node_list.pop(0)
     if CurrentNode == GoalNode:
-        while iterator != 0:
-            path.insert(0,iterator)
-            iterator = ParentNode_dic[iterator]
+        while CurrentNode != 0:
+            path.insert(0,CurrentNode)
+            CurrentNode = ParentNode_dic[tuple(CurrentNode)]
         break
-    AddNode(ActionMoveLeft(CurrentNode))
-    ParentNode_dic[len(Node_dic)-1] = iterator
-    AddNode(ActionMoveUp(CurrentNode))
-    ParentNode_dic[len(Node_dic)-1] = iterator
-    AddNode(ActionMoveRight(CurrentNode))
-    ParentNode_dic[len(Node_dic)-1] = iterator
-    AddNode(ActionMoveDown(CurrentNode))
-    ParentNode_dic[len(Node_dic)-1] = iterator
-    iterator += 1
+    AddNode(ActionMoveLeft(CurrentNode),CurrentNode)
+    
+    AddNode(ActionMoveUp(CurrentNode),CurrentNode)
+
+    AddNode(ActionMoveRight(CurrentNode),CurrentNode)
+    
+    AddNode(ActionMoveDown(CurrentNode),CurrentNode)
+    
    
     
     
 if inv%2 == 0:
-    print(path)
+    for listitem in path:
+       print(listitem)
 else:
     print("Puzzle is unsolvable")
 
-for num in path:
-    print(Node_dic[num])
+
 
 with open('Path.txt', "w") as PathFile:
     for listitem in path:
