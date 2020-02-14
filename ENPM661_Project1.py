@@ -106,6 +106,6 @@ else:
 
 with open('Path.txt', "w") as PathFile:
     for listitem in path:
-       PathFile.write('%s\n' % listitem)
+       PathFile.write(' '.join(str(s) for s in listitem) + '\n')
 
 PathFile.close
