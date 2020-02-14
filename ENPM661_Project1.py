@@ -5,8 +5,9 @@ StartNode = [1, 3, 7, 8, 5, 6, 2, 0, 4]
 path = []
 Node_list = [StartNode]
 ParentNode_dic = {tuple(StartNode):0}
+Index_dic = {}
 inv = 0
-
+iterator = 0
 
 
 
@@ -71,6 +72,7 @@ def AddNode(NewNode,Parent):
         if tuple(NewNode) not in ParentNode_dic:
             Node_list.append(NewNode) 
             ParentNode_dic[tuple(NewNode)]= tuple(Parent)
+            Index_dic[Node_list.index(NewNode)] = Node_list.index(Parent)
 
 for i in StartNode:
     for j in range(i+1,len(StartNode)):
@@ -79,19 +81,20 @@ for i in StartNode:
 
 while inv%2 == 0:
     
-    CurrentNode = Node_list.pop(0)
-    if CurrentNode == GoalNode:
+    CurrentNode = Node_list[iterator]
+    if tuple(GoalNode) in ParentNode_dic:
+        CurrentNode = GoalNode
         while CurrentNode != 0:
             path.insert(0,CurrentNode)
             CurrentNode = ParentNode_dic[tuple(CurrentNode)]
         break
-    AddNode(ActionMoveLeft(CurrentNode),CurrentNode)
-    
-    AddNode(ActionMoveUp(CurrentNode),CurrentNode)
 
+    AddNode(ActionMoveLeft(CurrentNode),CurrentNode)
+    AddNode(ActionMoveUp(CurrentNode),CurrentNode)
     AddNode(ActionMoveRight(CurrentNode),CurrentNode)
-    
     AddNode(ActionMoveDown(CurrentNode),CurrentNode)
+    iterator+=1
+    
     
    
     
@@ -102,10 +105,19 @@ if inv%2 == 0:
 else:
     print("Puzzle is unsolvable")
 
+with open('NodesInfo.txt', "w") as Nodeinfo:
 
+    for nodes in path[1:]:
+        Nodeinfo.write(str(Node_list.index(list(nodes))) + ' ' + str(Index_dic[Node_list.index(list(nodes))]) + '\n')
+        print(str(Node_list.index(list(nodes))) + ' ' + str(Index_dic[Node_list.index(list(nodes))]))
+Nodeinfo.close()       
 
-with open('Path.txt', "w") as PathFile:
+with open('nodePath.txt', "w") as PathFile:
     for listitem in path:
        PathFile.write(' '.join(str(s) for s in listitem) + '\n')
+PathFile.close()
 
-PathFile.close
+with open('Nodes.txt', "w") as NodesFile:
+    for listitem in Node_list:
+        NodesFile.write(' '.join(str(s) for s in listitem) + '\n')
+NodesFile.close()
