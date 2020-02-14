@@ -66,10 +66,14 @@ def ActionMoveDown(CurrentNode):
         return 1 
 
 #Add node to dictionary of known nodes
-def AddNode(NewNode):   
+def AddNode(NewNode): 
+    #If new node is 1, the robot has hit a wall 
     if NewNode !=1:
-
+        #Search the dictionary of known nodes  
         if tuple(NewNode) not in Search:
+
+            #I use two different dictionaries, one with the node as a key, the other with the node as a value. 
+            #This way I can search 
             Node_dic[len(Node_dic)] = NewNode
             Search[tuple(NewNode)]= len(Node_dic)
 
@@ -105,3 +109,9 @@ else:
 
 for num in path:
     print(Node_dic[num])
+
+with open('Path.txt', "w") as PathFile:
+    for listitem in path:
+       PathFile.write('%s\n' % listitem)
+
+PathFile.close
