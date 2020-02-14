@@ -2,10 +2,9 @@
 #This is the goal node
 GoalNode = [0, 3, 6, 1, 4, 7, 2, 5, 8]
 StartNode = [1, 3, 7, 8, 5, 6, 2, 0, 4]
-path = []
+Pathlist = []
 Node_list = [StartNode]
 ParentNode_dic = {tuple(StartNode):0}
-Index_dic = {}
 inv = 0
 iterator = 0
 
@@ -72,7 +71,6 @@ def AddNode(NewNode,Parent):
         if tuple(NewNode) not in ParentNode_dic:
             Node_list.append(NewNode) 
             ParentNode_dic[tuple(NewNode)]= tuple(Parent)
-            Index_dic[Node_list.index(NewNode)] = Node_list.index(Parent)
 
 for i in StartNode:
     for j in range(i+1,len(StartNode)):
@@ -85,7 +83,7 @@ while inv%2 == 0:
     if tuple(GoalNode) in ParentNode_dic:
         CurrentNode = GoalNode
         while CurrentNode != 0:
-            path.insert(0,CurrentNode)
+            Pathlist.insert(0,CurrentNode)
             CurrentNode = ParentNode_dic[tuple(CurrentNode)]
         break
 
@@ -96,24 +94,24 @@ while inv%2 == 0:
     iterator+=1
     
     
-   
+    
     
     
 if inv%2 == 0:
-    for listitem in path:
+    for listitem in Pathlist:
        print(listitem)
 else:
     print("Puzzle is unsolvable")
 
 with open('NodesInfo.txt', "w") as Nodeinfo:
 
-    for nodes in path[1:]:
-        Nodeinfo.write(str(Node_list.index(list(nodes))) + ' ' + str(Index_dic[Node_list.index(list(nodes))]) + '\n')
-        print(str(Node_list.index(list(nodes))) + ' ' + str(Index_dic[Node_list.index(list(nodes))]))
+    for nodes in range(1,len(Pathlist)):
+        Nodeinfo.write(str(Node_list.index(list(Pathlist[nodes]))) + ' ' + str(Node_list.index(list(Pathlist[nodes-1]))) + '\n')
+        print(str(Node_list.index(list(Pathlist[nodes]))) + ' ' + str(Node_list.index(list(Pathlist[nodes-1]))))
 Nodeinfo.close()       
 
 with open('nodePath.txt', "w") as PathFile:
-    for listitem in path:
+    for listitem in Pathlist:
        PathFile.write(' '.join(str(s) for s in listitem) + '\n')
 PathFile.close()
 
