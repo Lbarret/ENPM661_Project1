@@ -1,15 +1,17 @@
 
 #This is the Start node
-StartNode = [8, 4, 7, 1, 6, 5, 3, 2, 0]
+StartNode = [8, 4, 1, 7, 6, 5, 3, 2, 0]
 GoalNode =  [1, 4, 7, 2, 5, 8, 3, 6, 0]
 Pathlist = []
 Node_list = [StartNode]
 ParentNode_dic = {tuple(StartNode):0}
 inv = 0
 iterator = 0
+checkstart = []
 
-
-checkstart = [StartNode[0], StartNode[3], StartNode[6], StartNode[1], StartNode[4], StartNode[7], StartNode[2], StartNode[5], StartNode[8]]
+for i in range(3):
+    for j in range(3):
+        checkstart.append(StartNode[i+3*j])
 checkstart.pop(checkstart.index(0))
 
 def BlankTileLocation(CurrentNode):
