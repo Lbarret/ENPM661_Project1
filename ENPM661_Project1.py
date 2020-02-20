@@ -5,6 +5,8 @@
 #This is the Start node. Enter the start configuration here:
 StartNode = [8, 4, 7, 1, 6, 5, 3, 2, 0]
 
+
+
 #This is the configuration the algorithm will solve for
 GoalNode =  [1, 4, 7, 2, 5, 8, 3, 6, 0]
 
@@ -137,6 +139,8 @@ while inv%2 == 0:
 #If the number of inversions is odd, the puzzle is unsolvable and the terminal will say so.  
 if inv%2 != 0:
     print("Puzzle is unsolvable")
+else:
+    print("Puzzle solved!")
     
 #Write the index of each node in the path and it's parent node to the file NodesInfo.txt
 with open('NodesInfo.txt', "w") as Nodeinfo:
