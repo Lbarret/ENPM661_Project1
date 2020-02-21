@@ -17,7 +17,8 @@ Pathlist = []
 Node_list = [StartNode]
 
 #ParentNode_dic is a dictionary linking nodes to their parent nodes
-ParentNode_dic = {tuple(StartNode):0}
+str1= " "
+ParentNode_dic = {str1.join(map(str,StartNode)): "0"}
 
 #inv will track the number of inversions from the start node to the goal node
 inv = 0
@@ -88,9 +89,9 @@ def AddNode(NewNode,Parent):
     #If new node is 1, the robot has hit a wall 
     if NewNode !=1:
         #Search the dictionary of known nodes  
-        if tuple(NewNode) not in ParentNode_dic:
+        if str1.join(map(str,NewNode)) not in ParentNode_dic:
             Node_list.append(NewNode) 
-            ParentNode_dic[tuple(NewNode)]= tuple(Parent)
+            ParentNode_dic[str1.join(map(str,NewNode))]= str1.join(map(str,Parent))
 
 #This for loop put the start node in an easier format to check if the start node is solvable. 
 for i in range(3):
@@ -114,16 +115,16 @@ while inv%2 == 0:
     CurrentNode = Node_list[iterator]
 
     #Checks if the goal node was found and put into the Parent Node Dictionary
-    if tuple(GoalNode) in ParentNode_dic:
+    if str1.join(map(str,GoalNode)) in ParentNode_dic:
         #Start from the goal node
-        CurrentNode = GoalNode
+        CurrentNode = str1.join(map(str,GoalNode))
 
         #Run until the start node has been reached
-        while CurrentNode != 0:
+        while CurrentNode != "0":
             #Add the current node to the path
             Pathlist.insert(0,CurrentNode)
             #Update the current node to the parent node of the current node
-            CurrentNode = ParentNode_dic[tuple(CurrentNode)]
+            CurrentNode = ParentNode_dic[CurrentNode]
         #Stop looking for new nodes
         break
 
@@ -146,13 +147,15 @@ else:
 with open('NodesInfo.txt', "w") as Nodeinfo:
 
     for nodes in range(1,len(Pathlist)):
-        Nodeinfo.write(str(Node_list.index(list(Pathlist[nodes]))) + ' ' + str(Node_list.index(list(Pathlist[nodes-1]))) + '\n')
+        node1 = [int(i) for i in Pathlist[nodes].split(" ")]
+        node2 = [int(i) for i in Pathlist[nodes-1].split(" ")]
+        Nodeinfo.write(str(Node_list.index(node1)) + ' ' + str(Node_list.index(node2)) + '\n')
 Nodeinfo.close()       
 
 #Write the nodes in the path to the file nodePath.txt
 with open('nodePath.txt', "w") as PathFile:
     for listitem in Pathlist:
-       PathFile.write(' '.join(str(s) for s in listitem) + '\n')
+       PathFile.write(listitem + '\n')
 PathFile.close()
 
 #Write all the explored nodes to the file Nodes.txt
