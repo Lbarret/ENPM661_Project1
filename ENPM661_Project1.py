@@ -3,7 +3,7 @@
 #21-Feb-20
 
 #This is the Start node. Enter the start configuration here:
-StartNode = [8, 4, 7, 1, 6, 5, 3, 2, 0]
+StartNode = [1, 3, 2, 7, 5, 8, 4, 6, 0]
 
 
 
