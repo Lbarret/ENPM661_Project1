@@ -159,6 +159,7 @@ with open('nodePath.txt', "w") as PathFile:
        PathFile.write(listitem + '\n')
 PathFile.close()
 
+
 #Write all the explored nodes to the file Nodes.txt
 with open('Nodes.txt', "w") as NodesFile:
     for listitem in Node_list:
