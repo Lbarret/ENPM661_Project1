@@ -2,7 +2,7 @@
 #ENPM661 Project 1
 #21-Feb-20
 
-#This is the Start node. Enter the start configuration here:
+#This is the Start node. Enter the start configuration in column wise format here:
 StartNode = [1, 3, 2, 7, 5, 8, 4, 6, 0]
 
 
@@ -16,7 +16,7 @@ Pathlist = []
 #Node_list will store all the explored nodes in order of discovery. It will also keep the index of each node
 Node_list = [StartNode]
 
-#ParentNode_dic is a dictionary linking nodes to their parent nodes
+#ParentNode_dic is a dictionary linking nodes to their parent nodes. Nodes stored as strings to search faster
 str1= " "
 ParentNode_dic = {str1.join(map(str,StartNode)): "0"}
 
@@ -146,6 +146,7 @@ else:
 #Write the index of each node in the path and it's parent node to the file NodesInfo.txt
 with open('NodesInfo.txt', "w") as Nodeinfo:
 
+    #Convert string in pathlist to int to find index in Node_list
     for nodes in range(1,len(Pathlist)):
         node1 = [int(i) for i in Pathlist[nodes].split(" ")]
         node2 = [int(i) for i in Pathlist[nodes-1].split(" ")]
